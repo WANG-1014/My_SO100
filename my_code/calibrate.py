@@ -12,7 +12,6 @@ CALIBRATION_DIR = os.path.join(BASE_DIR, 'calibration')
 JSON_FILE = os.path.join(CALIBRATION_DIR, 'calibrate.json')
 
 # 舵机ID列表
-
 SERVO_IDS_master = [1, 2, 3, 4, 5, 6]
 SERVO_IDS_follower = [1, 2, 3, 4, 5, 6]
 
