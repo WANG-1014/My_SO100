@@ -8,4 +8,7 @@ pip install ftservo-python-sdk
 - 需要设置COM_ID和Servo_ID
 ### 二、calibrate.py 机械臂校准
 - 输出文件在./calibration文件夹
+### 三、teleoperate.py 机械臂遥操作
+- 控制主臂远程遥操作从臂
+
 
