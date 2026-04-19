@@ -12,11 +12,10 @@ COM_ID = 'COM7'
 Servo_ID = 1
 
 import sys
-import os
 
 # 导入FT舵机库
-sys.path.append("..")
-from scservo_sdk import *
+sys.path.append("../..")
+from my_teleoperation.scservo_sdk import *
 
 # 设置串口
 portHandler = PortHandler(COM_ID) # (example) Windows: "COM1"   Linux: "/dev/ttyUSB0" Mac: "/dev/tty.usbserial-*"

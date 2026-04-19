@@ -1,10 +1,9 @@
-import sys
 import os
 import json
-from scservo_sdk import *
+from my_teleoperation.scservo_sdk import *
 
-sys.path.append("..")
-from scservo_sdk import *  # 使用SCServo SDK库
+sys.path.append("../..")
+from my_teleoperation.scservo_sdk import *  # 使用SCServo SDK库
 
 # 保存文件位置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

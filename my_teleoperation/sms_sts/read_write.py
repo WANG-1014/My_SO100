@@ -8,11 +8,9 @@
 #
 
 import sys
-import os
-import time
 
-sys.path.append("..")
-from scservo_sdk import *                      # Uses FTServo SDK library
+sys.path.append("../..")
+from my_teleoperation.scservo_sdk import *                      # Uses FTServo SDK library
 
 
 def read(SCS_ID):

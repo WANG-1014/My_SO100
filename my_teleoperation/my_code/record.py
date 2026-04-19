@@ -1,13 +1,12 @@
 import sys
 import os
-import time
 import json
 import csv
 import numpy as np
 from datetime import datetime
 import threading
-sys.path.append("..")
-from scservo_sdk import *
+sys.path.append("../..")
+from my_teleoperation.scservo_sdk import *
 
 # 路径设置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

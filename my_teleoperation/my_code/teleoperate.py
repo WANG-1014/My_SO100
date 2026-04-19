@@ -1,10 +1,9 @@
 import sys
 import os
-import time
 import json
 import numpy as np
-sys.path.append("..")
-from scservo_sdk import *
+sys.path.append("../..")
+from my_teleoperation.scservo_sdk import *
 
 # 路径设置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

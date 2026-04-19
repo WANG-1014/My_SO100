@@ -8,11 +8,9 @@
 #
 
 import sys  # 导入sys模块，用于操作系统相关功能
-import os   # 导入os模块，用于路径操作
-import time # 导入time模块，用于延时
 
-sys.path.append("..")  # 将上级目录加入模块搜索路径，便于导入scservo_sdk
-from scservo_sdk import *  # 导入SCServo SDK库
+sys.path.append("../..")  # 将上级目录加入模块搜索路径，便于导入scservo_sdk
+from my_teleoperation.scservo_sdk import *  # 导入SCServo SDK库
 
 # 初始化端口处理对象，指定串口号
 # Windows下如"COM1"，Linux下如"/dev/ttyUSB0"

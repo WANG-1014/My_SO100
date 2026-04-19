@@ -8,10 +8,9 @@
 #
 
 import sys
-import os
 
-sys.path.append("..")
-from scservo_sdk import *                       # Uses SCServo SDK library
+sys.path.append("../..")
+from my_teleoperation.scservo_sdk import *                       # Uses SCServo SDK library
 
 
 # Initialize PortHandler instance
