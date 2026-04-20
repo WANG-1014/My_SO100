@@ -5,4 +5,4 @@
 - 该文件夹是我的机械臂遥操作相关代码
 
 ## 📂lerobot
-- 该文件夹是huggingface开源的lerobot项目，包括了24年底的so100 act相关代码，以及我自己编写的UI界面代码
+- 该文件夹是huggingface开源的lerobot项目，包括了25年的so100 act相关代码，以及我自己编写的UI界面代码
