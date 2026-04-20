@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="picture">
+    <file>picture/my_so-100_2</file>
+    <file>picture/my_rx1_robot</file>
+  </qresource>
+</RCC>
