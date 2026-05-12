@@ -8,12 +8,13 @@ from PyQt5.QtWidgets import *
 import sys
 from Imitation_Learning import Ui_MainWindow # 导入图像界面设计文件
 
-yaocaozuo_so100_scripts_path = "/home/wang/lerobot/src/lerobot/scripts/lerobot_teleoperate.py"
-kaishiluzhi_so100_scripts_path = "/home/wang/lerobot/src/lerobot/scripts/lerobot_record.py"
-kaishixunlian_so100_scripts_path = "/home/wang/lerobot/src/lerobot/scripts/lerobot_train.py"
-kaishiyanzheng_so100_scripts_path = "/home/wang/lerobot/src/lerobot/scripts/lerobot_record.py"
-renwuxunlianji_path = "/home/wang/.cache/huggingface/lerobot/wang"
-output_path = "/home/wang/lerobot/outputs/train"
+# https://qcn9c45tjy9u.feishu.cn/wiki/KNsMwUa5giHUClkuu6tcHNUBnMf?from=from_copylink
+yaocaozuo_so100_scripts_path = "/home/w/lerobot/src//lerobot/scripts/lerobot_teleoperate.py"
+kaishiluzhi_so100_scripts_path = "/home/w/lerobot/src//lerobot/scripts/lerobot_record.py"
+kaishixunlian_so100_scripts_path = "/home/w/lerobot/src//lerobot/scripts/lerobot_train.py"
+kaishiyanzheng_so100_scripts_path = "/home/w/lerobot/src//lerobot/scripts/lerobot_record.py"
+renwuxunlianji_path = "/home/w/.cache/huggingface/lerobot/w"
+output_path = "/home/w/lerobot/outputs/train"
 # stackedWidget --- 0：无机械臂；1：机械臂so-100；2：机械臂rx1-robot
 # stackedWidget_2 --- 0：请选择/校准机械臂；1：请执行操作；2：开始/暂停；3：训练任务策略
 # pushButton --- 0:返回；1：机器人遥操作；2：训练任务策略；3：验证任务策略；4：遥操作开始；5：遥操作停止；6：录制训练集；7：训练策略；8：返回
@@ -274,7 +275,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
         self.check_interval = 500  # 设置检查间隔和超时（单位：毫秒） # 每0.5秒检查一次
         self.timeout_counter = 0
         self.max_checks = 5  # 2.5秒 = 5次*0.5秒
-        self.calibration_folder = "/home/wang/.cache/huggingface/lerobot/calibration/robots/so_follower"  # 目标文件夹名
+        self.calibration_folder = "/home/w/.cache/huggingface/lerobot/calibration/robots/so_follower"  # 目标文件夹名
         self.calibration_timer = QTimer() # 启动定时器
         self.calibration_timer.timeout.connect(self.check_calibration_folder_so_100)
         self.calibration_timer.start(self.check_interval)
@@ -310,7 +311,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
         self.check_interval = 500  # 设置检查间隔和超时（单位：毫秒） # 每0.5秒检查一次
         self.timeout_counter = 0
         self.max_checks = 5  # 2.5秒 = 5次*0.5秒
-        self.calibration_folder = "/home/wang/.cache/huggingface/lerobot/calibration/robots/rx1robot_follower"  # 目标文件夹名
+        self.calibration_folder = "/home/w/.cache/huggingface/lerobot/calibration/robots/rx1robot_follower"  # 目标文件夹名
         self.calibration_timer = QTimer() # 启动定时器
         self.calibration_timer.timeout.connect(self.check_calibration_folder_rx1_robot)
         self.calibration_timer.start(self.check_interval)
@@ -353,7 +354,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
             self.camera_timer.timeout.connect(self.update_camera_frame)
         if not hasattr(self, 'camera1') or self.camera1 is None:
             # 初始化摄像头
-            self.camera1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+            self.camera1 = cv2.VideoCapture(2, cv2.CAP_V4L2)
             # self.camera1 = cv2.VideoCapture(0)
             if not self.camera1.isOpened():
                 QMessageBox.warning(self, "警告", "无法打开摄像头！")
@@ -363,7 +364,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
             self.camera1.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
             if not hasattr(self, 'camera2') or self.camera2 is None:
                 # 初始化摄像头
-                self.camera2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+                self.camera2 = cv2.VideoCapture(4, cv2.CAP_V4L2)
                 # self.camera2 = cv2.VideoCapture(2)
                 if not self.camera2.isOpened():
                     QMessageBox.warning(self, "警告", "无法打开摄像头！")
@@ -449,18 +450,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
             # self.yaocaozuo_so_100 = subprocess.Popen(['python', '../my_code/lerobot/scripts/control_robot.py', '--robot.type=so100', '--robot.cameras='+'{}', '--control.type=teleoperate'])
             self.open_camera()
             command = ['python', yaocaozuo_so100_scripts_path,
-                        '--robot.type=so100_follower',
-                        '--robot.port=/dev/ttyACM1',
-                        # '--robot.cameras="{ top: {type: opencv, index_or_path: 4, width: 1280, height: 720, fps: 30, fourcc: MJPG},
-                        # wrist: {type: opencv, index_or_path: 2, width: 1280, height: 720, fps: 30, fourcc: MJPG}
-                        # }"',
-                        '--robot.id=follower',
-                        '--teleop.type=so100_leader',
-                        '--teleop.port=/dev/ttyACM0',
-                        '--teleop.id=leader',
-                        '--display_data=false',
-                        # '--display_data=true',
-                        ]
+                       '--robot.type=so100_follower',
+                       '--robot.port=/dev/ttyACM1',
+                       '--robot.cameras={}',
+                       '--robot.id=follower',
+                       '--teleop.type=so100_leader',
+                       '--teleop.port=/dev/ttyACM0',
+                       '--teleop.id=leader',
+                       '--display_data=false',
+                       ]
+
             self.textEdit.clear()
             # 创建并启动线程
             self.yaocaozuo_so_100 = ProcessThread(command)
@@ -522,7 +521,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
         self.renwuxunlianji_show()
         self.output_show()
         self.lineEdit.setText("")
-        self.lineEdit_2.setText("")
         self.lineEdit_3.setText("")
         self.lineEdit_4.setText("")
         self.lineEdit_5.setText("")
@@ -568,7 +566,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
     # 动作 click_xunliancelue_luzhixunlianji_kaishiluzhi 触发：
     def click_xunliancelue_luzhixunlianji_kaishiluzhi(self):
         if(self.lineEdit.text().strip() == "" or
-                self.lineEdit_2.text().strip() == "" or
                 self.lineEdit_3.text().strip() == "" or
                 self.lineEdit_4.text().strip() == "" or
                 self.lineEdit_5.text().strip() == ""):
@@ -586,7 +583,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
         self.pushButton_9.setText("(正在录制中...)")
         if self.my_robot_type == 1:
             task_name = self.lineEdit.text()
-            warmup_time_s = self.lineEdit_2.text()
             episode_time_s = self.lineEdit_3.text()
             reset_time_s = self.lineEdit_4.text()
             num_episides = self.lineEdit_5.text()
@@ -594,12 +590,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
                 'python', kaishiluzhi_so100_scripts_path,
                 '--robot.type=so100_follower',
                 '--robot.port=/dev/ttyACM1',
-                '--robot.cameras={top: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}}',
+                '--robot.cameras={top: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}',
                 '--robot.id=follower',
                 '--teleop.type=so100_leader',
                 '--teleop.port=/dev/ttyACM0',
                 '--teleop.id=leader',
-                f'--dataset.repo_id=wang/{task_name}',
+                f'--dataset.repo_id=w/{task_name}',
                 f'--dataset.single_task="{task_name}"',
                 f'--dataset.episode_time_s={episode_time_s}',
                 f'--dataset.reset_time_s={reset_time_s}',
@@ -608,6 +604,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
                 '--display_data=false',
                 # '--display_data=true',
             ]
+    
             self.folder_path = os.path.join(renwuxunlianji_path, f"{task_name}")
             if os.path.exists(self.folder_path) and os.path.isdir(self.folder_path):
                 shutil.rmtree(self.folder_path)  # 递归删除文件夹及其内容
@@ -673,14 +670,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
             output_task_name = self.lineEdit_7.text()
             command = [
                 'python', kaishixunlian_so100_scripts_path,
-                f"--dataset.repo_id='/home/wang/.cache/huggingface/lerobot/wang/{xunlian_task_name}'",
+                f'--dataset.repo_id=\'w/{xunlian_task_name}\'',
                 '--policy.type=act',
                 '--policy.push_to_hub=false',
-                f'--output_dir=/home/wang/lerobot/outputs/train/{output_task_name}',
+                f'--output_dir=/home/w/lerobot/outputs/train/{output_task_name}',
                 f'--job_name={output_task_name}',
-                '--policy.device=cuda',
+                '--policy.device=cpu',
                 '--wandb.enable=false',
+                f'--steps={num_of_step}'
             ]
+
             self.folder_path = os.path.join(output_path, f"{output_task_name}")
             if os.path.exists(self.folder_path) and os.path.isdir(self.folder_path):
                 shutil.rmtree(self.folder_path)  # 递归删除文件夹及其内容
@@ -740,7 +739,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
     # 动作 click_yanzhengrenwucelue_yanzhengcelue
     def click_yanzhengrenwucelue_yanzhengcelue(self):
         self.lineEdit_8.clear()
-        self.lineEdit_9.clear()
         self.comboBox_2.setCurrentIndex(0)
         self.renwuxunlianji_show()
         self.output_show()
@@ -768,8 +766,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
     # 动作 click_yanzhengrenwucelue_yanzhengcelue_kaishi
     def click_yanzhengrenwucelue_yanzhengcelue_kaishi(self):
         if (self.comboBox_2.currentText().strip() == "" or
-                self.lineEdit_8.text().strip() == "" or
-                self.lineEdit_9.text().strip() == ""):
+                self.lineEdit_8.text().strip() == ""):
             QMessageBox.about(self, "Warming！！！",
                               """请配置好验证策略的设置""")
             return
@@ -778,19 +775,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
 
         if self.my_robot_type == 1:
             name = self.comboBox_2.currentText()
-            wait_time = self.lineEdit_9.text()
             total_time = self.lineEdit_8.text()
             command = [
                 'python', kaishiyanzheng_so100_scripts_path,
                 '--robot.type=so100_follower',
                 '--robot.port=/dev/ttyACM1',
-                '--robot.cameras={top: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}}',
+                '--robot.cameras={top: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}',
                 '--robot.id=follower',
                 '--teleop.type=so100_leader',
                 '--teleop.port=/dev/ttyACM0',
                 '--teleop.id=leader',
-                f'--policy.path=/home/wang/lerobot/outputs/train/{name}/checkpoints/last/pretrained_model',
-                f'--dataset.repo_id=wang/eval_{name}',
+                f'--policy.path=/home/w/lerobot/outputs/train/{name}/checkpoints/last/pretrained_model',
+                f'--dataset.repo_id=w/eval_{name}',
                 f'--dataset.episode_time_s={total_time}',
                 '--dataset.reset_time_s=1',
                 '--dataset.num_episodes=1',
@@ -799,6 +795,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
                 '--display_data=false',
                 # '--display_data=true',
             ]
+
             self.folder_path = os.path.join(renwuxunlianji_path, f"eval_{name}")
             if os.path.exists(self.folder_path) and os.path.isdir(self.folder_path):
                 shutil.rmtree(self.folder_path)  # 递归删除文件夹及其内容
@@ -847,15 +844,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow类和 Ui_M
         if os.path.exists(self.folder_path) and os.path.isdir(self.folder_path):
             shutil.rmtree(self.folder_path)  # 递归删除文件夹及其内容
 
-# 解决不同显示器显示问题
-import platform
-import ctypes
+
 from PyQt5.QtCore import Qt
-if platform.system() == 'Windows' and int(platform.release()) >= 8:
-    ctypes.windll.shcore.SetProcessDpiAwareness(True)
-    ctypes.windll.shcore.SetProcessDpiAwareness(0) # 告诉Windows：我是DPI无感知应用
-    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "0" # 告诉Qt：不要自动缩放
-QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)  # 禁用缩放
+import os
+os.environ["QT_SCALE_FACTOR"] = "1"  # 强制正常大小
+
+from PyQt5.QtWidgets import QApplication
+QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, False)    
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)  # 在 QApplication 方法中使用，创建应用程序对象
