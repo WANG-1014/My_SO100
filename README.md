@@ -7,5 +7,5 @@
 ## 📂lerobot
 - 该文件夹是huggingface开源的lerobot项目，包括了25年的so100 act相关代码，以及我自己编写的UI界面代码
 
-## FD_debug
+## 📂FD_debug
 - 该文件夹是ST3215系列舵机调试上位机
