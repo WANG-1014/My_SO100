@@ -90,3 +90,6 @@
     python my_Imitaition_Learning.py
     ```
 - 使用！！！
+
+## 参考
+- [HuggingFace-lerobot](https://github.com/huggingface/lerobot)
